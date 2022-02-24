@@ -100,10 +100,14 @@ class Loss_CategoricalCrossentropy(Loss):
 # Create dataset
 X, y = vertical_data(samples=100, classes=3)
 
+print(X)
+print(y)
 # Create model
-dense1 = Layer_Dense(2, 3)  # first dense layer, 2 inputs
+layer1_neurons = 300
+dense1 = Layer_Dense(2, layer1_neurons)  # first dense layer, 2 inputs
 activation1 = Activation_ReLU()
-dense2 = Layer_Dense(3, 3)  # second dense layer, 3 inputs, 3 outputs
+layer2_neurons = 300
+dense2 = Layer_Dense(layer2_neurons, 3)  # second dense layer, 3 inputs, 3 outputs
 activation2 = Activation_Softmax()
 
 # Create loss function
@@ -116,13 +120,15 @@ best_dense1_biases = dense1.biases.copy()
 best_dense2_weights = dense2.weights.copy()
 best_dense2_biases = dense2.biases.copy()
 
-for iteration in range(10000):
+best_prediction = 0
+for iteration in range(100000):
 
     # Update weights with some small random values
     multiplier = 0.05
-    dense1.weights += multiplier * np.random.randn(2, 3)
-    dense1.biases += multiplier * np.random.randn(1, 3)
-    dense2.weights += multiplier * np.random.randn(3, 3)
+    
+    dense1.weights += multiplier * np.random.randn(2, layer1_neurons)
+    dense1.biases += multiplier * np.random.randn(1, layer1_neurons)
+    dense2.weights += multiplier * np.random.randn(layer2_neurons, 3)
     dense2.biases += multiplier * np.random.randn(1, 3)
 
     # Perform a forward pass of our training data through this layer
@@ -139,7 +145,9 @@ for iteration in range(10000):
     # Calculate accuracy from output of activation2 and targets
     # calculate values along first axis
     predictions = np.argmax(activation2.output, axis=1)
+    # print(iteration, predictions)
     accuracy = np.mean(predictions==y)
+    # print(accuracy)
 
     # If loss is smaller - print and save weights and biases aside
     if loss < lowest_loss:
@@ -150,9 +158,17 @@ for iteration in range(10000):
         best_dense2_weights = dense2.weights.copy()
         best_dense2_biases = dense2.biases.copy()
         lowest_loss = loss
+        best_prediction = predictions
     # Revert weights and biases
     else:
         dense1.weights = best_dense1_weights.copy()
         dense1.biases = best_dense1_biases.copy()
         dense2.weights = best_dense2_weights.copy()
         dense2.biases = best_dense2_biases.copy()
+
+import matplotlib.pyplot as plt
+plt.scatter(X[:,0], X[:,1], c=y, s=40, cmap='brg')
+plt.show()
+
+plt.scatter(X[:,0], X[:,1], c=best_prediction, s=40, cmap='brg')
+plt.show()

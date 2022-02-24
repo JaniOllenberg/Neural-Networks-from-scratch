@@ -8,4 +8,4 @@ plt.show()
 
 import numpy
 for _ in range(10):
-    print(0.05 * numpy.random.randn(3,3))
+    print(0.05 * numpy.random.randn(2,30))
