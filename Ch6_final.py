@@ -120,8 +120,11 @@ best_dense1_biases = dense1.biases.copy()
 best_dense2_weights = dense2.weights.copy()
 best_dense2_biases = dense2.biases.copy()
 
+import matplotlib.pyplot as plt
+plt.scatter(X[:,0], X[:,1], c=y, s=40, cmap='brg')
+plt.show()
 best_prediction = 0
-for iteration in range(100000):
+for iteration in range(10000):
 
     # Update weights with some small random values
     multiplier = 0.05
@@ -148,6 +151,8 @@ for iteration in range(100000):
     # print(iteration, predictions)
     accuracy = np.mean(predictions==y)
     # print(accuracy)
+    plt.scatter(X[:,0], X[:,1], c=predictions, s=40, cmap='brg')
+    plt.show()
 
     # If loss is smaller - print and save weights and biases aside
     if loss < lowest_loss:
@@ -159,6 +164,8 @@ for iteration in range(100000):
         best_dense2_biases = dense2.biases.copy()
         lowest_loss = loss
         best_prediction = predictions
+        plt.scatter(X[:,0], X[:,1], c=best_prediction, s=40, cmap='brg')
+        plt.show()
     # Revert weights and biases
     else:
         dense1.weights = best_dense1_weights.copy()
@@ -166,9 +173,9 @@ for iteration in range(100000):
         dense2.weights = best_dense2_weights.copy()
         dense2.biases = best_dense2_biases.copy()
 
-import matplotlib.pyplot as plt
-plt.scatter(X[:,0], X[:,1], c=y, s=40, cmap='brg')
-plt.show()
+# import matplotlib.pyplot as plt
+# plt.scatter(X[:,0], X[:,1], c=y, s=40, cmap='brg')
+# plt.show()
 
-plt.scatter(X[:,0], X[:,1], c=best_prediction, s=40, cmap='brg')
-plt.show()
+# plt.scatter(X[:,0], X[:,1], c=best_prediction, s=40, cmap='brg')
+# plt.show()
