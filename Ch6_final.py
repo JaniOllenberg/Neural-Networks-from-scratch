@@ -1,6 +1,6 @@
 import numpy as np
 import nnfs
-from nnfs.datasets import vertical_data
+from nnfs.datasets import spiral_data
 
 nnfs.init()
 
@@ -98,7 +98,7 @@ class Loss_CategoricalCrossentropy(Loss):
         
         
 # Create dataset
-X, y = vertical_data(samples=100, classes=3)
+X, y = spiral_data(samples=100, classes=3)
 
 print(X)
 print(y)
@@ -151,8 +151,8 @@ for iteration in range(10000):
     # print(iteration, predictions)
     accuracy = np.mean(predictions==y)
     # print(accuracy)
-    plt.scatter(X[:,0], X[:,1], c=predictions, s=40, cmap='brg')
-    plt.show()
+    # plt.scatter(X[:,0], X[:,1], c=predictions, s=40, cmap='brg')
+    # plt.show()
 
     # If loss is smaller - print and save weights and biases aside
     if loss < lowest_loss:
@@ -164,8 +164,8 @@ for iteration in range(10000):
         best_dense2_biases = dense2.biases.copy()
         lowest_loss = loss
         best_prediction = predictions
-        plt.scatter(X[:,0], X[:,1], c=best_prediction, s=40, cmap='brg')
-        plt.show()
+        # plt.scatter(X[:,0], X[:,1], c=best_prediction, s=40, cmap='brg')
+        # plt.show()
     # Revert weights and biases
     else:
         dense1.weights = best_dense1_weights.copy()
@@ -177,5 +177,5 @@ for iteration in range(10000):
 # plt.scatter(X[:,0], X[:,1], c=y, s=40, cmap='brg')
 # plt.show()
 
-# plt.scatter(X[:,0], X[:,1], c=best_prediction, s=40, cmap='brg')
-# plt.show()
+plt.scatter(X[:,0], X[:,1], c=best_prediction, s=40, cmap='brg')
+plt.show()
