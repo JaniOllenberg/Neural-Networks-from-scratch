@@ -471,14 +471,14 @@ for epoch in range(10001):
     if len(y.shape) == 2:
         y = np.argmax(y, axis=1)
     accuracy = np.mean(predictions==y)
+    plt.scatter(X[:,0], X[:,1], c=predictions, s=40, cmap='brg')
+    plt.show()
 
     if not epoch % 100:
         print(f'epoch: {epoch}, ' +
               f'acc: {accuracy:.3f}, ' +
               f'loss: {loss:.3f}, ' +
               f'lr: {optimizer.current_learning_rate}')
-        plt.scatter(X[:,0], X[:,1], c=predictions, s=40, cmap='brg')
-        plt.show()
 
 
     # Backward pass
